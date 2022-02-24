@@ -1,5 +1,6 @@
 import React from "react";
 import type { FC } from "react";
+import { useNavigate } from 'react-router-dom';
 import Avatar from "components/Avatar";
 import styled from "styled-components";
 import colors from "styles/colors";
@@ -10,11 +11,12 @@ interface LinkPageProps {
 }
 
 const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
-  console.log(itemInfoList);
+  const navigate = useNavigate();
 
   const moveToDetailPage = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    const target = e.target as HTMLAnchorElement;
-    console.log(target.dataset.id);
+    const id = (e.target as HTMLAnchorElement).dataset.id;
+    console.log(id);
+    navigate(`/detail/${id}`)
   }
 
   return (
