@@ -40,6 +40,22 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
     }
   };
 
+  const validityInspection = (expiresAt: number) => {
+    console.log(expiresAt * 1000);
+    const expriesAtTime = expiresAt * 1000;
+    const now = new Date(1632973932000);
+    const nowNum = 1632973932000;
+    const cal = nowNum - expriesAtTime;
+    console.log(cal);
+    if (cal < 0) console.log("만료됨");
+    else if (nowNum <= nowNum - expriesAtTime) {
+      console.log("X일");
+    } else {
+      console.log("xx 시간 xx분");
+    }
+    return "";
+  };
+
   return (
     <>
       <Title>마이 링크</Title>
@@ -102,7 +118,7 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
                 </TableCell>
                 <TableCell>
                   <span>유효기간</span>
-                  <span>48시간 00분</span>
+                  <span>{validityInspection(itemInfo.expires_at)}</span>
                 </TableCell>
                 <TableCell>
                   <span>받은사람</span>
