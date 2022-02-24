@@ -6,6 +6,8 @@ import styled from "styled-components";
 import colors from "styles/colors";
 import type { ItemType } from "../../api/getItemData";
 import { fileSizeCalculate } from "utils/fileSizeCalculate";
+import { expiresDate } from "utils/expiresDate";
+
 import { el } from "date-fns/locale";
 
 interface LinkPageProps {
@@ -16,12 +18,9 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
   const navigate = useNavigate();
 
   const moveToDetailPage = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent>
   ) => {
-    const id = (e.target as HTMLDivElement).dataset.id;
-
-    if ((e.target as HTMLDivElement).id === "linkUrl") return;
-
+    const id = (e.target as HTMLParagraphElement).dataset.id;
     navigate(`/detail?id=${id}`);
   };
 
@@ -57,11 +56,7 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
         <TableBody>
           {itemInfoList.map((itemInfo: ItemType, index) => {
             return (
-              <TableRow
-                key={itemInfo.key}
-                data-id={itemInfo.key}
-                onClick={moveToDetailPage}
-              >
+              <TableRow key={itemInfo.key}>
                 <TableCell>
                   <LinkInfo>
                     <LinkImage>
@@ -72,7 +67,10 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
                       />
                     </LinkImage>
                     <LinkTexts>
-                      <LinkTitle>
+                      <LinkTitle
+                        data-id={itemInfo.key}
+                        onClick={moveToDetailPage}
+                      >
                         {itemInfo?.sent ? itemInfo.sent.subject : "무제"}
                       </LinkTitle>
                       <LinkUrl
@@ -86,7 +84,7 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
                           )
                         }
                       >
-                        {itemInfo.expires_at - itemInfo.created_at > 0
+                        {expiresDate(itemInfo.expires_at)
                           ? `localhost/detail/${itemInfo.key}`
                           : "만료됨"}
                       </LinkUrl>

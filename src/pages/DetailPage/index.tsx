@@ -1,16 +1,33 @@
 import React, { useEffect, useState } from "react";
 import type { FC } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import colors from "styles/colors";
 import Button from "components/Button";
-import { getTagetItemData } from '../../api/getItemData';
-import type { ItemType } from '../../api/getItemData';
+import { File, getTagetItemData } from "../../api/getItemData";
+import type { ItemType } from "../../api/getItemData";
+import { fileSizeCalculate } from "utils/fileSizeCalculate";
+import { expiresDate } from "utils/expiresDate";
 
 const DetailPage: FC = () => {
   const [itemDetailInfo, setItemDetailInfo] = useState<ItemType | null>(null);
-  
-  const queryID = new URLSearchParams(useLocation().search).get('id');
+
+  const queryID = new URLSearchParams(useLocation().search).get("id");
+  const downLoadAlert = () => {
+    window.alert("다운로드 되었습니다.");
+  };
+
+  const createDate = () => {
+    if (itemDetailInfo) {
+      const initialDate = new Date(itemDetailInfo.created_at * 1000);
+      const years = initialDate.getFullYear();
+      const month = initialDate.getMonth();
+      const day = initialDate.getDay();
+      const hour = initialDate.getHours();
+      const minute = initialDate.getMinutes();
+      return `${years}년 ${month + 1}월 ${day}일 ${hour}:${minute} +09:00`;
+    }
+  };
 
   useEffect(() => {
     async function getData() {
@@ -26,10 +43,10 @@ const DetailPage: FC = () => {
     <>
       <Header>
         <LinkInfo>
-          <Title>로고파일</Title>
-          <Url>localhost/7LF4MDLY</Url>
+          <Title>{itemDetailInfo?.sent?.subject}</Title>
+          <Url>localhost/{itemDetailInfo?.key}</Url>
         </LinkInfo>
-        <DownloadButton>
+        <DownloadButton onClick={downLoadAlert}>
           <img referrerPolicy="no-referrer" src="/svgs/download.svg" alt="" />
           받기
         </DownloadButton>
@@ -38,28 +55,57 @@ const DetailPage: FC = () => {
         <Descrition>
           <Texts>
             <Top>링크 생성일</Top>
-            <Bottom>2022년 1월 12일 22:36 +09:00</Bottom>
+            <Bottom>{createDate()}</Bottom>
             <Top>메세지</Top>
-            <Bottom>로고파일 전달 드립니다.</Bottom>
+            <Bottom>{itemDetailInfo?.sent?.content}</Bottom>
             <Top>다운로드 횟수</Top>
-            <Bottom>1</Bottom>
+            <Bottom>{itemDetailInfo?.download_count}</Bottom>
           </Texts>
           <LinkImage>
             <Image />
           </LinkImage>
         </Descrition>
         <ListSummary>
-          <div>총 1개의 파일</div>
-          <div>10.86KB</div>
+          {expiresDate(
+            (itemDetailInfo as ItemType) &&
+              (itemDetailInfo as ItemType).expires_at
+          ) ? (
+            <div>총 {itemDetailInfo?.files.length}개의 파일</div>
+          ) : (
+            <div>총 0개의 파일</div>
+          )}
+
+          <div>
+            {expiresDate(
+              (itemDetailInfo as ItemType) &&
+                (itemDetailInfo as ItemType).expires_at
+            )
+              ? fileSizeCalculate(
+                  itemDetailInfo?.files.reduce(
+                    (file, currentFile) => file + currentFile.size,
+                    0
+                  )
+                )
+              : "만료됨"}
+          </div>
         </ListSummary>
         <FileList>
-          <FileListItem>
-            <FileItemInfo>
-              <span />
-              <span>logo.png</span>
-            </FileItemInfo>
-            <FileItemSize>10.86KB</FileItemSize>
-          </FileListItem>
+          {expiresDate(
+            (itemDetailInfo as ItemType) &&
+              (itemDetailInfo as ItemType).expires_at
+          )
+            ? itemDetailInfo?.files.map((file) => {
+                return (
+                  <FileListItem key={file.key}>
+                    <FileItemInfo thumbnailUrl={file.thumbnailUrl}>
+                      <span />
+                      <span>{file.name}</span>
+                    </FileItemInfo>
+                    <FileItemSize>{fileSizeCalculate(file.size)}</FileItemSize>
+                  </FileListItem>
+                );
+              })
+            : null}
         </FileList>
       </Article>
     </>
@@ -219,19 +265,18 @@ const FileListItem = styled.li`
   align-items: center;
 `;
 
-const FileItemInfo = styled.div`
+const FileItemInfo = styled.div<{ thumbnailUrl: string }>`
   flex-grow: 0;
   max-width: 50%;
   flex-basis: 50%;
   display: flex;
   align-items: center;
-
   span:first-child {
     width: 40px;
     height: 40px;
     margin-right: 12px;
     display: inline-block;
-    background-image: url(/svgs/default.svg);
+    background-image: url(${(props) => props.thumbnailUrl});
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
