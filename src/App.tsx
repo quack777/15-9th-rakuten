@@ -28,7 +28,8 @@ function App() {
         <BrowserRouter>
         <Routes>
         <Route path="/" element={<LinkPage itemInfoList={itemInfoList}  />}/>
-        <Route path="/detail/:id" element={<DetailPage />}/>
+        <Route path="/detail" element={<DetailPage />}/> 
+        <Route path="/detail?/*" element={<DetailPage />}/> 
         </Routes>
         </BrowserRouter>
       </Container>

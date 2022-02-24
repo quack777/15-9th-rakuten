@@ -16,7 +16,7 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
   const moveToDetailPage = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     const id = (e.target as HTMLAnchorElement).dataset.id;
     console.log(id);
-    navigate(`/detail/${id}`)
+    navigate(`/detail?id=${id}`)
   }
 
   return (
