@@ -11,6 +11,12 @@ interface LinkPageProps {
 
 const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
   console.log(itemInfoList);
+
+  const moveToDetailPage = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const target = e.target as HTMLAnchorElement;
+    console.log(target.dataset.id);
+  }
+
   return (
     <>
       <Title>마이 링크</Title>
@@ -40,7 +46,7 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
                 </LinkImage>
                 <LinkTexts>
                   <LinkTitle>{itemInfo?.sent ? itemInfo.sent.subject : '무제'}</LinkTitle>
-                  <LinkUrl>{`localhost/detail/${itemInfo.key}`}</LinkUrl>
+                  <LinkUrl data-id={itemInfo.key} onClick={moveToDetailPage}>{`localhost/detail/${itemInfo.key}`}</LinkUrl>
                 </LinkTexts>
               </LinkInfo>
               <span />
