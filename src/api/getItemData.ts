@@ -27,13 +27,13 @@ export interface Sent {
 }
 
 export const getItemData = async (): Promise<ItemType[]> => {
-    const { data } = await axios.get('http://localhost:3000/data/itemInfoList.json');
+    const { data } = await axios.get('https://romantic-hopper-546d5e.netlify.app/data/itemInfoList.json');
     
     return data;
 }
 
 export const getTagetItemData = async (queryID: string | null): Promise<ItemType> => {
-    const { data: { message } } = await axios.get(`http://localhost:3000/data/detail${queryID}.json`);
+    const { data: { message } } = await axios.get(`https://romantic-hopper-546d5e.netlify.app/data/detail${queryID}.json`);
 
     return message;
 }
