@@ -1,0 +1,39 @@
+{
+  "message": {
+    "created_at": 1641861685,
+    "key": "7725NJHW",
+    "expires_at": 1643074932,
+    "download_count": 11,
+    "count": 4,
+    "size": 5292249,
+    "summary": "unnamed.gif",
+    "thumbnailUrl": "https://storage-fe.fastraffic.io/homeworks/thumbnails/static/pdf.svg",
+    "files": [
+      {
+        "key": "e753155e2b637e4473f4a12871b7365a633420.gif",
+        "thumbnailUrl": "https://storage-fe.fastraffic.io/homeworks/thumbnails/static/gif.svg",
+        "name": "out.gif",
+        "size": 1585069
+      },
+      {
+        "key": "a6212d40086687e97c3330085853f57e939641.gif",
+        "thumbnailUrl": "https://storage-fe.fastraffic.io/homeworks/thumbnails/static/gif.svg",
+        "name": "really.gif",
+        "size": 1164374
+      },
+      {
+        "key": "1f61cf5ab68bfe9a47fa5a536674f2ab788237.gif",
+        "thumbnailUrl": "https://storage-fe.fastraffic.io/homeworks/thumbnails/static/gif.svg",
+        "name": "sowhat.gif",
+        "size": 1260349
+      },
+      {
+        "key": "88d0a4970758be990d89484161655ad591145.gif",
+        "thumbnailUrl": "https://storage-fe.fastraffic.io/homeworks/thumbnails/static/gif.svg",
+        "name": "tumblr_ouvolryPBp1rygyf1o4_500.gif",
+        "size": 1282457
+      }
+    ]
+  }
+}
+

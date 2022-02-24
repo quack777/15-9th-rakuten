@@ -1,17 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import type { FC } from "react";
 import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
 import colors from "styles/colors";
 import Button from "components/Button";
+import { getTagetItemData } from '../../api/getItemData';
+import type { ItemType } from '../../api/getItemData';
 
 const DetailPage: FC = () => {
+  const [itemDetailInfo, setItemDetailInfo] = useState<ItemType | null>(null);
+  
   const queryID = new URLSearchParams(useLocation().search).get('id');
 
   useEffect(() => {
-    
-  }, []);
+    async function getData() {
+      const result = await getTagetItemData(queryID as string);
 
+      setItemDetailInfo(result);
+    }
+
+    getData();
+  }, []);
+  console.log(itemDetailInfo);
   return (
     <>
       <Header>

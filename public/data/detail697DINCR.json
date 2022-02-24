@@ -1,0 +1,25 @@
+{
+    "message": {
+      "created_at": 1641860685,
+      "key": "697DINCR",
+      "expires_at": 1643073272,
+      "download_count": 2,
+      "count": 1,
+      "size": 341793,
+      "summary": "캐논-4hands.pdf",
+      "thumbnailUrl": "https://storage-fe.fastraffic.io/homeworks/thumbnails/static/pdf.svg",
+      "files": [
+        {
+          "key": "9945463d7a88d70657f1ad6ae1644af4140430.pdf",
+          "thumbnailUrl": "https://storage-fe.fastraffic.io/homeworks/thumbnails/static/pdf.svg",
+          "name": "pachelbel-johann-cannon-666.pdf",
+          "size": 341793
+        }
+      ],
+      "sent": {
+        "subject": "캐논악보",
+        "content": "",
+        "emails": []
+      }
+    }
+}
