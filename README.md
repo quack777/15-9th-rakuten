@@ -1,3 +1,12 @@
+## **1. 💁 프로젝트 소개**
+
+- 주제 : 4주차 라쿠텐심포니 코리아
+- 기간 : 22.02.24 ~ 22.02.26
+
+<details>
+<summary>라쿠텐 레퍼런스</summary>
+<div markdown="1">
+
 # 라쿠텐심포니 코리아 Frontend Developer 기술 과제
 
 | 이 문제의 저작권은 라쿠텐 심포니 코리아 있으며, 지원자는 오로지 채용을 위한 목적으로만 이 문제를 활용할 수 있습니다. 안내사항에 따라 과제를 완성해주세요. |
@@ -118,3 +127,121 @@
   - `content`: 링크를 공유한 메일 내용 _(string)_
   - `emails`: 링크를 공유한 메일 목록 _(string[])_
     }
+
+</div>
+</details>
+
+---
+
+## 2. 🛠️ 기술 스택
+
+<p align="center">
+<img alt="JavaScript" src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" />
+<img alt="TypeScript" src = "https://img.shields.io/badge/TypeScript-%231572B6.svg?style=for-the-badge&logo=TypeScript&logoColor=white" />
+<img alt="React" src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" />
+<img alt="styled" src="https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white" />
+</p>
+
+---
+
+## 3. 👋🏻 팀원 소개
+
+
+
+---
+
+## 4. 🔗 배포 링크
+
+[배포 링크 바로가기](https://romantic-hopper-546d5e.netlify.app/)
+
+---
+
+## 5. 📄 기능 목록 명세
+
+### 화면1: 링크 목록 화면
+
+- 링크로 공유한 파일(들)을 다운로드 받을 수 있는 링크 목록을 확인할 수 있습니다.
+- 기능
+    - 서버에서 제공한 링크 데이터를 화면에 표시합니다.
+    - 링크 아이템을 클릭하여 상세페이지로 이동합니다
+    - 제목 아래 URL을 아래와 같이 표시합니다.
+        - 유효기간 이내: 도메인 주소를 포함한 상세페이지로 이동하는 전체경로를 표시합니다.
+        - 유효기간 만료: 만료됨으로 표시합니다.
+    - URL을 클릭한 경우 아래와 같이 동작합니다.
+        - 유효기간 이내: ~~URL를 클립보드에 복사하고~~ ${링크 제목} 주소가 복사 되었습니다.를 내용으로 가지는 브라우저 기본 Alert을 표시합니다.
+        - 유효기간 만료: 아무동작도 하지 않습니다.
+    - 파일 개수의 숫자에 3자리 단위마다 콤마를 표시합니다.
+    - 파일 사이즈를 읽을 수 있도록 표시해주세요.
+        - 소수점 둘째 자리까지 표기합니다.
+        - 단위는 숫자 뒤에 B, KB, MB, GB, TB로 표기 (ex. 10.86KB)
+    - 유효기간을 아래와 같이 표시하되 실시간으로 반영합니다.
+        - 48시간 미만: XX시간 XX분
+        - 48시간 이상: X일
+        - 만료: 만료됨
+    - 받은 사람이 있을 경우 받은 사람 텍스트를 미리 주어진 코드베이스와 같이 <Avatar />컴포넌트를 이용합니다.
+- 
+
+### 화면2: 링크 상세 화면
+
+- 링크가 가지고 있는 파일 목록을 확인하고 공유 받을 수 있습니다.
+- App.tsx 에서 `<LinkPage />` 를 주석 처리하고, `<DetailPage />` 화면을 주석 해제하면 확인할 수 있습니다.
+- 기능
+    - 링크 정보를 표시합니다.
+    - 받기 버튼을 누르면 다운로드 되었습니다.를 내용으로 가지는 브라우저 기본 Alert을 표시합니다.
+    - 링크의 유효기간이 만료 되지 않았을 경우에만 파일 목록을 표시합니다.
+
+---
+
+## 6. 💿 설치 및 실행 방법
+
+Project Clone
+
+`$ git clone` 
+
+Project Setup
+
+`$ npm install`
+
+Project Start For Development
+
+`$ npm start`
+
+---
+
+## 7. 🌲 프로젝트 구조
+
+```
+📦src
+ ┣ 📂api
+ ┃ ┗ 📜getItemData.ts
+ ┣ 📂components
+ ┃ ┣ 📜Avatar.tsx
+ ┃ ┣ 📜Button.tsx
+ ┃ ┗ 📜Container.tsx
+ ┣ 📂pages
+ ┃ ┣ 📂DetailPage
+ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┗ 📂LinkPage
+ ┃ ┃ ┗ 📜index.tsx
+ ┣ 📂styles
+ ┃ ┣ 📜colors.ts
+ ┃ ┗ 📜GlobalStyle.tsx
+ ┣ 📂utils
+ ┃ ┣ 📜expiresDate.ts
+ ┃ ┗ 📜fileSizeCalculate.ts
+ ┣ 📜.DS_Store
+ ┣ 📜App.tsx
+ ┣ 📜index.tsx
+ ┣ 📜react-app-env.d.ts
+ ┣ 📜reportWebVitals.ts
+ ┗ 📜setupTests.ts
+```
+
+## 8. 📕 레퍼런스
+
+- 이 프로젝트는 <u>[원티드 프론트엔드 프리온보딩](https://www.wanted.co.kr/events/pre_onboarding_course_6) 기업 과제를 토대로 만들었습니다.
+- 실무수준의 프로젝트이지만 학습용으로 만들었기 때문에 이 코드를 활용하여 이득을 취하거나 무단 배포할 경우 법적으로 문제될 수 있습니다.
+
+
+
+
