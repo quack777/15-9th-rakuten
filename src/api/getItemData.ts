@@ -31,3 +31,7 @@ export const getItemData = async (): Promise<ItemType[]> => {
     
     return data;
 }
+
+export const getTagetItemData = async (queryID: string) => {
+    const { data } = await axios.get('http://localhost:3000/data/itemInfoList.json');
+}

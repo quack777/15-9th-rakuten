@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { FC } from "react";
+import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
 import colors from "styles/colors";
 import Button from "components/Button";
 
 const DetailPage: FC = () => {
+  const queryID = new URLSearchParams(useLocation().search).get('id');
+
+  useEffect(() => {
+    
+  }, []);
+
   return (
     <>
       <Header>
