@@ -146,6 +146,10 @@
 
 ## 3. 👋🏻 팀원 소개
 
+|조은총|최병현|조용우|
+|----|---|---|
+|<img width="200px" src='https://avatars.githubusercontent.com/u/66837741?v=4'/>|<img width="200px" src="https://avatars.githubusercontent.com/u/65222200?v=4"/>|<img width="200px" src='https://avatars.githubusercontent.com/u/89348550?v=4'>|
+
 
 
 ---
