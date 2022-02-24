@@ -3,8 +3,14 @@ import type { FC } from "react";
 import Avatar from "components/Avatar";
 import styled from "styled-components";
 import colors from "styles/colors";
+import type { ItemType } from '../../api/getItemData';
 
-const LinkPage: FC = () => {
+interface LinkPageProps {
+  itemInfoList: ItemType[]
+}
+
+const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
+  console.log(itemInfoList);
   return (
     <>
       <Title>마이 링크</Title>
@@ -19,7 +25,10 @@ const LinkPage: FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow>
+          {
+            itemInfoList.map((itemInfo: ItemType, index) => {
+              return (
+                <TableRow key={itemInfo.key}>
             <TableCell>
               <LinkInfo>
                 <LinkImage>
@@ -30,19 +39,19 @@ const LinkPage: FC = () => {
                   />
                 </LinkImage>
                 <LinkTexts>
-                  <LinkTitle>로고파일</LinkTitle>
-                  <LinkUrl>localhost/7LF4MDLY</LinkUrl>
+                  <LinkTitle>{itemInfo?.sent ? itemInfo.sent.subject : '무제'}</LinkTitle>
+                  <LinkUrl>{`localhost/detail/${itemInfo.key}`}</LinkUrl>
                 </LinkTexts>
               </LinkInfo>
               <span />
             </TableCell>
             <TableCell>
               <span>파일개수</span>
-              <span>1</span>
+              <span>{itemInfo.count}</span>
             </TableCell>
             <TableCell>
               <span>파일사이즈</span>
-              <span>10.86KB</span>
+              <span>{itemInfo.size}</span>
             </TableCell>
             <TableCell>
               <span>유효기간</span>
@@ -51,82 +60,14 @@ const LinkPage: FC = () => {
             <TableCell>
               <span>받은사람</span>
               <LinkReceivers>
-                <Avatar text="recruit@estmob.com" />
+                {itemInfo?.sent && <Avatar text="recruit@estmob.com" />}
               </LinkReceivers>
             </TableCell>
           </TableRow>
-          <TableRow>
-            <TableCell>
-              <LinkInfo>
-                <LinkImage>
-                  <img
-                    referrerPolicy="no-referrer"
-                    src="/svgs/default.svg"
-                    alt=""
-                  />
-                </LinkImage>
-                <LinkTexts>
-                  <LinkTitle>로고파일</LinkTitle>
-                  <LinkUrl>localhost/7LF4MDLY</LinkUrl>
-                </LinkTexts>
-              </LinkInfo>
-              <span />
-            </TableCell>
-            <TableCell>
-              <span>파일개수</span>
-              <span>1</span>
-            </TableCell>
-            <TableCell>
-              <span>파일사이즈</span>
-              <span>10.86KB</span>
-            </TableCell>
-            <TableCell>
-              <span>유효기간</span>
-              <span>48시간 00분</span>
-            </TableCell>
-            <TableCell>
-              <span>받은사람</span>
-              <LinkReceivers>
-                <Avatar text="recruit@estmob.com" />
-              </LinkReceivers>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>
-              <LinkInfo>
-                <LinkImage>
-                  <img
-                    referrerPolicy="no-referrer"
-                    src="/svgs/default.svg"
-                    alt=""
-                  />
-                </LinkImage>
-                <LinkTexts>
-                  <LinkTitle>로고파일</LinkTitle>
-                  <LinkUrl>localhost/7LF4MDLY</LinkUrl>
-                </LinkTexts>
-              </LinkInfo>
-              <span />
-            </TableCell>
-            <TableCell>
-              <span>파일개수</span>
-              <span>1</span>
-            </TableCell>
-            <TableCell>
-              <span>파일사이즈</span>
-              <span>10.86KB</span>
-            </TableCell>
-            <TableCell>
-              <span>유효기간</span>
-              <span>48시간 00분</span>
-            </TableCell>
-            <TableCell>
-              <span>받은사람</span>
-              <LinkReceivers>
-                <Avatar text="recruit@estmob.com" />
-              </LinkReceivers>
-            </TableCell>
-          </TableRow>
+              )
+            })
+            
+          }
         </TableBody>
       </Table>
     </>
