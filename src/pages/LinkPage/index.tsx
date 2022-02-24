@@ -1,23 +1,45 @@
 import React from "react";
 import type { FC } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Avatar from "components/Avatar";
 import styled from "styled-components";
 import colors from "styles/colors";
-import type { ItemType } from '../../api/getItemData';
+import type { ItemType } from "../../api/getItemData";
+import { fileSizeCalculate } from "utils/fileSizeCalculate";
+import { el } from "date-fns/locale";
 
 interface LinkPageProps {
-  itemInfoList: ItemType[]
+  itemInfoList: ItemType[];
 }
 
 const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
   const navigate = useNavigate();
 
-  const moveToDetailPage = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  const moveToDetailPage = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    const id = (e.target as HTMLDivElement).dataset.id;
+
+    if ((e.target as HTMLDivElement).id === "linkUrl") return;
+
+    navigate(`/detail?id=${id}`);
+  };
+
+  const handleClickUrlBtn = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    createdAt: number,
+    expiresAt: number
+  ) => {
     const id = (e.target as HTMLAnchorElement).dataset.id;
-    
-    navigate(`/detail?id=${id}`)
-  }
+    const url = `http://localhost:3000/detail?id=${id}`;
+    console.log(url);
+    if (expiresAt - createdAt <= 0) {
+      return;
+    } else {
+      navigator.clipboard.writeText(url);
+      window.alert(`${url}주소가 복사 되었습니다.`);
+    }
+  };
 
   return (
     <>
@@ -33,49 +55,66 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {
-            itemInfoList.map((itemInfo: ItemType, index) => {
-              return (
-                <TableRow key={itemInfo.key}>
-            <TableCell>
-              <LinkInfo>
-                <LinkImage>
-                  <img
-                    referrerPolicy="no-referrer"
-                    src="/svgs/default.svg"
-                    alt=""
-                  />
-                </LinkImage>
-                <LinkTexts>
-                  <LinkTitle>{itemInfo?.sent ? itemInfo.sent.subject : '무제'}</LinkTitle>
-                  <LinkUrl data-id={itemInfo.key} onClick={moveToDetailPage}>{`localhost/detail/${itemInfo.key}`}</LinkUrl>
-                </LinkTexts>
-              </LinkInfo>
-              <span />
-            </TableCell>
-            <TableCell>
-              <span>파일개수</span>
-              <span>{itemInfo.count}</span>
-            </TableCell>
-            <TableCell>
-              <span>파일사이즈</span>
-              <span>{itemInfo.size}</span>
-            </TableCell>
-            <TableCell>
-              <span>유효기간</span>
-              <span>48시간 00분</span>
-            </TableCell>
-            <TableCell>
-              <span>받은사람</span>
-              <LinkReceivers>
-                {itemInfo?.sent && <Avatar text="recruit@estmob.com" />}
-              </LinkReceivers>
-            </TableCell>
-          </TableRow>
-              )
-            })
-            
-          }
+          {itemInfoList.map((itemInfo: ItemType, index) => {
+            return (
+              <TableRow
+                key={itemInfo.key}
+                data-id={itemInfo.key}
+                onClick={moveToDetailPage}
+              >
+                <TableCell>
+                  <LinkInfo>
+                    <LinkImage>
+                      <img
+                        referrerPolicy="no-referrer"
+                        src="/svgs/default.svg"
+                        alt=""
+                      />
+                    </LinkImage>
+                    <LinkTexts>
+                      <LinkTitle>
+                        {itemInfo?.sent ? itemInfo.sent.subject : "무제"}
+                      </LinkTitle>
+                      <LinkUrl
+                        id="linkUrl"
+                        data-id={itemInfo.key}
+                        onClick={(e) =>
+                          handleClickUrlBtn(
+                            e,
+                            itemInfo.created_at,
+                            itemInfo.expires_at
+                          )
+                        }
+                      >
+                        {itemInfo.expires_at - itemInfo.created_at > 0
+                          ? `localhost/detail/${itemInfo.key}`
+                          : "만료됨"}
+                      </LinkUrl>
+                    </LinkTexts>
+                  </LinkInfo>
+                  <span />
+                </TableCell>
+                <TableCell>
+                  <span>파일개수</span>
+                  <span>{itemInfo.count.toLocaleString("ko-KR")}</span>
+                </TableCell>
+                <TableCell>
+                  <span>파일사이즈</span>
+                  <span>{fileSizeCalculate(itemInfo.size)}</span>
+                </TableCell>
+                <TableCell>
+                  <span>유효기간</span>
+                  <span>48시간 00분</span>
+                </TableCell>
+                <TableCell>
+                  <span>받은사람</span>
+                  <LinkReceivers>
+                    {itemInfo?.sent && <Avatar text="recruit@estmob.com" />}
+                  </LinkReceivers>
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </>
