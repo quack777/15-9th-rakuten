@@ -10,6 +10,8 @@ import { expiresDate } from "utils/expiresDate";
 
 import { el } from "date-fns/locale";
 
+const todayDateSet = new Date(2022, 0, 25, 10, 14, 32); // 오늘 날짜로 계산 하면 다 만료로 뜨기때문에 세팅을 두 번째랑 동일하게 설정 했습니다.
+
 interface LinkPageProps {
   itemInfoList: ItemType[];
 }
@@ -18,21 +20,23 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
   const navigate = useNavigate();
 
   const moveToDetailPage = (
-    e: React.MouseEvent<HTMLParagraphElement, MouseEvent>
-  ) => {
-    const id = (e.target as HTMLParagraphElement).dataset.id;
-    navigate(`/detail?id=${id}`);
+    e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
+    id: string
+  ): void => {
+    if ((e.target as HTMLAnchorElement).nodeName === "A") {
+      return;
+    } else {
+      navigate(`/detail?id=${id}`);
+    }
   };
 
   const handleClickUrlBtn = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    createdAt: number,
     expiresAt: number
-  ) => {
+  ): void => {
     const id = (e.target as HTMLAnchorElement).dataset.id;
     const url = `http://localhost:3000/detail?id=${id}`;
-    console.log(url);
-    if (expiresAt - createdAt <= 0) {
+    if (expiresAt * 1000 - todayDateSet.getTime() <= 0) {
       return;
     } else {
       navigator.clipboard.writeText(url);
@@ -42,8 +46,7 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
 
   const validityInspection = (expiresAt: number): string => {
     const expriesMsec = expiresAt * 1000;
-    const nowDate = new Date(2022, 0, 25, 10, 14, 32); // 두번 째 날짜로 계산했습니다
-    const nowMsec = nowDate.getTime();
+    const nowMsec = todayDateSet.getTime();
     const gapMsec = expriesMsec - nowMsec;
     if (gapMsec <= 0) return "만료됨";
     else if (0 < gapMsec && gapMsec < 48 * 60 * 60 * 1000) {
@@ -75,7 +78,10 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
         <TableBody>
           {itemInfoList.map((itemInfo: ItemType, index) => {
             return (
-              <TableRow key={itemInfo.key}>
+              <TableRow
+                key={itemInfo.key}
+                onClick={(e) => moveToDetailPage(e, itemInfo.key)}
+              >
                 <TableCell>
                   <LinkInfo>
                     <LinkImage>
@@ -86,21 +92,14 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
                       />
                     </LinkImage>
                     <LinkTexts>
-                      <LinkTitle
-                        data-id={itemInfo.key}
-                        onClick={moveToDetailPage}
-                      >
+                      <LinkTitle>
                         {itemInfo?.sent ? itemInfo.sent.subject : "무제"}
                       </LinkTitle>
                       <LinkUrl
                         id="linkUrl"
                         data-id={itemInfo.key}
                         onClick={(e) =>
-                          handleClickUrlBtn(
-                            e,
-                            itemInfo.created_at,
-                            itemInfo.expires_at
-                          )
+                          handleClickUrlBtn(e, itemInfo.expires_at)
                         }
                       >
                         {expiresDate(itemInfo.expires_at)
