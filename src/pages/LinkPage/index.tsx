@@ -40,20 +40,23 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
     }
   };
 
-  const validityInspection = (expiresAt: number) => {
-    console.log(expiresAt * 1000);
-    const expriesAtTime = expiresAt * 1000;
-    const now = new Date(1632973932000);
-    const nowNum = 1632973932000;
-    const cal = nowNum - expriesAtTime;
-    console.log(cal);
-    if (cal < 0) console.log("만료됨");
-    else if (nowNum <= nowNum - expriesAtTime) {
-      console.log("X일");
+  const validityInspection = (expiresAt: number): string => {
+    const expriesMsec = expiresAt * 1000;
+    const nowDate = new Date(2022, 0, 25, 10, 14, 32); // 두번 째 날짜로 계산했습니다
+    const nowMsec = nowDate.getTime();
+    const gapMsec = expriesMsec - nowMsec;
+    if (gapMsec <= 0) return "만료됨";
+    else if (0 < gapMsec && gapMsec < 48 * 60 * 60 * 1000) {
+      let hoursgap = gapMsec / 1000 / (60 * 60);
+      hoursgap = Math.abs(Math.round(hoursgap));
+      let minutesgap = gapMsec / 1000 / 60;
+      minutesgap = Math.abs(Math.round(minutesgap));
+      return `${hoursgap} 시간 ${minutesgap}분`;
     } else {
-      console.log("xx 시간 xx분");
+      let daygap = gapMsec / 1000 / (60 * 60 * 24);
+      daygap = Math.abs(Math.round(daygap));
+      return `${daygap}일`;
     }
-    return "";
   };
 
   return (
