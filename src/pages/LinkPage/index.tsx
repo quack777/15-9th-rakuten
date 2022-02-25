@@ -40,6 +40,25 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
     }
   };
 
+  const validityInspection = (expiresAt: number): string => {
+    const expriesMsec = expiresAt * 1000;
+    const nowDate = new Date(2022, 0, 25, 10, 14, 32); // 두번 째 날짜로 계산했습니다
+    const nowMsec = nowDate.getTime();
+    const gapMsec = expriesMsec - nowMsec;
+    if (gapMsec <= 0) return "만료됨";
+    else if (0 < gapMsec && gapMsec < 48 * 60 * 60 * 1000) {
+      let hoursgap = gapMsec / 1000 / (60 * 60);
+      hoursgap = Math.abs(Math.round(hoursgap));
+      let minutesgap = gapMsec / 1000 / 60;
+      minutesgap = Math.abs(Math.round(minutesgap));
+      return `${hoursgap} 시간 ${minutesgap}분`;
+    } else {
+      let daygap = gapMsec / 1000 / (60 * 60 * 24);
+      daygap = Math.abs(Math.round(daygap));
+      return `${daygap}일`;
+    }
+  };
+
   return (
     <>
       <Title>마이 링크</Title>
@@ -102,7 +121,7 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
                 </TableCell>
                 <TableCell>
                   <span>유효기간</span>
-                  <span>48시간 00분</span>
+                  <span>{validityInspection(itemInfo.expires_at)}</span>
                 </TableCell>
                 <TableCell>
                   <span>받은사람</span>
