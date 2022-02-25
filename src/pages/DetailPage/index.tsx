@@ -14,7 +14,13 @@ const DetailPage: FC = () => {
 
   const queryID = new URLSearchParams(useLocation().search).get("id");
   const downLoadAlert = () => {
-    window.alert("다운로드 되었습니다.");
+    expiresDate(
+      (itemDetailInfo as ItemType) && (itemDetailInfo as ItemType).expires_at
+    )
+      ? window.alert(
+          `총 ${itemDetailInfo?.files.length}개의 파일이 다운로드 되었습니다.`
+        )
+      : window.alert("만료되었습니다.");
   };
 
   const createDate = () => {
@@ -38,12 +44,16 @@ const DetailPage: FC = () => {
 
     getData();
   }, []);
-  console.log(itemDetailInfo);
+
   return (
     <>
       <Header>
         <LinkInfo>
-          <Title>{itemDetailInfo?.sent?.subject}</Title>
+          <Title>
+            {itemDetailInfo?.sent?.subject
+              ? itemDetailInfo?.sent?.subject
+              : "무제"}
+          </Title>
           <Url>localhost/{itemDetailInfo?.key}</Url>
         </LinkInfo>
         <DownloadButton onClick={downLoadAlert}>
@@ -66,15 +76,7 @@ const DetailPage: FC = () => {
           </LinkImage>
         </Descrition>
         <ListSummary>
-          {expiresDate(
-            (itemDetailInfo as ItemType) &&
-              (itemDetailInfo as ItemType).expires_at
-          ) ? (
-            <div>총 {itemDetailInfo?.files.length}개의 파일</div>
-          ) : (
-            <div>총 0개의 파일</div>
-          )}
-
+          {<div>총 {itemDetailInfo?.files.length}개의 파일</div>}
           <div>
             {expiresDate(
               (itemDetailInfo as ItemType) &&

@@ -10,7 +10,7 @@ import { expiresDate } from "utils/expiresDate";
 
 import { el } from "date-fns/locale";
 
-const todayDateSet = new Date(2022, 0, 25, 10, 14, 32); // 오늘 날짜로 계산 하면 다 만료로 뜨기때문에 세팅을 두 번째랑 동일하게 설정 했습니다.
+const todayDateSet: Date = new Date(2022, 0, 25, 10, 14, 32); // 오늘 날짜로 계산 하면 다 만료로 뜨기때문에 세팅을 두 번째랑 동일하게 설정 했습니다.
 
 interface LinkPageProps {
   itemInfoList: ItemType[];
