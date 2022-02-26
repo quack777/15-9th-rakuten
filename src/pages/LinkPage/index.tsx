@@ -76,7 +76,7 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {itemInfoList.map((itemInfo: ItemType, index) => {
+          {itemInfoList.map((itemInfo: ItemType) => {
             return (
               <TableRow
                 key={itemInfo.key}
@@ -103,7 +103,7 @@ const LinkPage: FC<LinkPageProps> = ({ itemInfoList }: LinkPageProps) => {
                         }
                       >
                         {expiresDate(itemInfo.expires_at)
-                          ? `localhost/detail/${itemInfo.key}`
+                          ? `romantic-hopper-546d5e.netlify.app/detail/${itemInfo.key}`
                           : "만료됨"}
                       </LinkUrl>
                     </LinkTexts>

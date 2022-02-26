@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import colors from "styles/colors";
 import Button from "components/Button";
-import { File, getTagetItemData } from "../../api/getItemData";
+import { getTagetItemData } from "../../api/getItemData";
 import type { ItemType } from "../../api/getItemData";
 import { fileSizeCalculate } from "utils/fileSizeCalculate";
 import { expiresDate } from "utils/expiresDate";
@@ -23,7 +23,7 @@ const DetailPage: FC = () => {
       : window.alert("만료되었습니다.");
   };
 
-  const createDate = () => {
+  const createDate = (): string | undefined => {
     if (itemDetailInfo) {
       const initialDate = new Date(itemDetailInfo.created_at * 1000);
       const years = initialDate.getFullYear();
@@ -79,7 +79,6 @@ const DetailPage: FC = () => {
           {<div>총 {itemDetailInfo?.files.length}개의 파일</div>}
           <div>
             {expiresDate(
-              (itemDetailInfo as ItemType) &&
                 (itemDetailInfo as ItemType).expires_at
             )
               ? fileSizeCalculate(
@@ -93,7 +92,6 @@ const DetailPage: FC = () => {
         </ListSummary>
         <FileList>
           {expiresDate(
-            (itemDetailInfo as ItemType) &&
               (itemDetailInfo as ItemType).expires_at
           )
             ? itemDetailInfo?.files.map((file) => {
