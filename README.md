@@ -1,6 +1,5 @@
-## **1. 💁 프로젝트 소개**
+## **1. 📝 파일 다운로드 링크 페이지**
 
-- 주제 : 4주차 라쿠텐심포니 코리아
 - 기간 : 22.02.24 ~ 22.02.26
 
 <details>
@@ -244,11 +243,6 @@ Project Start For Development
  ┣ 📜reportWebVitals.ts
  ┗ 📜setupTests.ts
 ```
-
-## 8. 📕 레퍼런스
-
-- 이 프로젝트는 <u>[원티드 프론트엔드 프리온보딩](https://www.wanted.co.kr/events/pre_onboarding_course_6) 기업 과제를 토대로 만들었습니다.
-- 실무수준의 프로젝트이지만 학습용으로 만들었기 때문에 이 코드를 활용하여 이득을 취하거나 무단 배포할 경우 법적으로 문제될 수 있습니다.
 
 
 
